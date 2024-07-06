@@ -4,6 +4,10 @@
 
 @layer base {
   :root {
-    @apply bg-stone-900;
+    @apply bg-stone-900 text-white;
   }
+}
+
+.swiper-scrollbar-drag {
+  background-color: white !important;
 }

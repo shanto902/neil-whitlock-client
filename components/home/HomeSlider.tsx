@@ -8,25 +8,23 @@ import "swiper/css/scrollbar";
 // import required modules
 import { Scrollbar } from "swiper/modules";
 import Image from "next/image";
+import PaddingContainer from "../layout/PaddingContainer";
 
 const sliderData = [
   {
-    title: "Welcome to Poem Gallery",
-    description:
-      " Step into a sanctuary of words, where every verse tells a story and every line paints a picture. At Poem Gallery, we invite you to explore the boundless beauty of poetry. From timeless classics to contemporary masterpieces, embark on a journey through the corridors of creativity and imagination.",
+    title: "ON THE ROAD: THE VAST DESSERT",
+    date: "7 OCTOBER 2019 - 15 JULY 2022",
     backgroundImageURL: "/assets/1.jpeg",
   },
   {
-    title: "Discover Poetry's Tapestry",
-    description:
-      "Step into a sanctuary of words, where every verse tells a story and every line paints a picture. At Poem Gallery, we invite you to explore the boundless beauty of poetry. From timeless classics to contemporary masterpieces, embark on a journey through the corridors of creativity and imagination.",
+    title: "PATAGONIA/ANTARCTICA: THE FROZEN HILLS",
+    date: "13 MARCH 2018 - 12 JANUARY 2022 ",
     backgroundImageURL:
       "https://unsplash.com/photos/hjwKMkehBco/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MTZ8fFBvZXRyeSUyN3MlMjBUYXBlc3RyeXxlbnwwfHx8fDE3MTc1OTczMDZ8MA&force=true&w=1920",
   },
   {
-    title: "Join Our Literary Community",
-    description:
-      " Become a part of a thriving community of poetry enthusiasts and wordsmiths at Poem Gallery. Engage in thought-provoking discussions, share your own compositions, and connect with fellow poets from around the world. Whether you're a seasoned writer or an avid reader, there's a place for you in our warm and welcoming community.",
+    title: "ICELAND ROAD TRIP: BEAUTIFUL PLACES TO EXPLORE",
+    date: "7 OCTOBER 2019 - 15 JULY 2022  ",
     backgroundImageURL:
       "https://unsplash.com/photos/KdeqA3aTnBY/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MTV8fExpdGVyYXJ5JTIwQ29tbXVuaXR5fGVufDB8fHx8MTcxNzU5NzMzOHww&force=true&w=1920",
   },
@@ -54,9 +52,20 @@ const HomeSlider = () => {
             />
 
             {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-black opacity-20"></div>
+            <div className="absolute inset-0 bg-black opacity-30"></div>
 
             {/* Content */}
+
+            <PaddingContainer>
+              <div className=" absolute bottom-10 text-white z-10 left-1/2 transform -translate-x-1/2 h-20  max-w-[1550px] px-10 w-full">
+                <h2 className=" text-white text-4xl font-medium tracking-[3.60px]">
+                  {slider.title}
+                </h2>
+                <p className="text-white mt-3 text-sm font-medium tracking-wider">
+                  {slider.date}
+                </p>
+              </div>
+            </PaddingContainer>
           </div>
         </SwiperSlide>
       ))}
