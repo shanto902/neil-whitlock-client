@@ -1,7 +1,20 @@
 import { ReactNode } from "react";
+import { twMerge } from "tailwind-merge";
 
-const PaddingContainer = ({ children }: { children: ReactNode }) => {
-  return <div className="  mx-auto px-4">{children}</div>;
+const PaddingContainer = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
+  return (
+    <div
+      className={twMerge("mx-auto px-8 container overflow-hidden", className)}
+    >
+      {children}
+    </div>
+  );
 };
 
 export default PaddingContainer;

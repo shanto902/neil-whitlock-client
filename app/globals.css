@@ -8,6 +8,41 @@
   }
 }
 
+::selection {
+  background-color: white; /* Highlight color */
+  color: #000000; /* Text color */
+}
+
 .swiper-scrollbar-drag {
   background-color: white !important;
+}
+
+:root {
+  --primary: rgb(28 25 23 / var(--tw-bg-opacity));
+  --secondary: rgba(255, 255, 255, 0.4);
+  --tertiary: rgba(255, 255, 255, 0.856);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary) var(--primary);
+}
+
+*::-webkit-scrollbar {
+  width: 17px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--primary);
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--secondary);
+  border-radius: 14px;
+  border: 3px solid var(--primary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--tertiary);
 }
