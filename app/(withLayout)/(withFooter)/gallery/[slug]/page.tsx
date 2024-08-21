@@ -1,25 +1,59 @@
 import PaddingContainer from "@/components/layout/PaddingContainer";
-import { categories } from "@/data/category";
-import { TCategory } from "@/interface/category.interface";
+import { TImageData } from "@/interface/pictures.interface";
+import directus from "@/lib/directus";
 import { fetchImageData } from "@/lib/imageFetcher";
+import { readItems } from "@directus/sdk";
 import dynamic from "next/dynamic";
+import { notFound } from "next/navigation";
 const ImageSliderWrapper = dynamic(
   () => import("@/components/gallery/ImageSliderWrapper"),
   { ssr: false }
 );
 // Adjust this import path
 
-export function generateStaticParams() {
-  return categories.map((category: TCategory) => ({
-    slug: category.slug,
-  }));
-}
+const getPictures = async (slug: string) => {
+  try {
+    const result = await directus.request(
+      readItems("pictures", {
+        filter: {
+          category: {
+            slug: {
+              _eq: slug,
+            },
+          },
+        },
+        fields: ["id", "image", "alt"],
+        sort: ["sort"],
+      })
+    );
 
-export type TImageData = {
-  image: string;
-  alt: string;
-  description: string;
-  blurDataURL?: string;
+    return result as TImageData[];
+  } catch (error) {
+    console.error("Error fetching member data:", error);
+    throw new Error("Error fetching post");
+  }
+};
+
+export const generateStaticParams = async () => {
+  try {
+    const result = await directus.request(
+      readItems("categories", {
+        filter: {
+          status: {
+            _eq: "published",
+          },
+        },
+        fields: ["slug"],
+      })
+    );
+
+    const allParams =
+      (result as { slug: string }[]).map((item) => ({ slug: item.slug })) || [];
+    return allParams;
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    throw new Error("Error fetching categories");
+  }
 };
 
 const GalleryPage = async ({
@@ -29,40 +63,38 @@ const GalleryPage = async ({
     slug: string;
   };
 }) => {
-  const images: TImageData[] = [
-    {
-      image:
-        "https://res.cloudinary.com/dey7en5ho/image/upload/v1720570156/neil/eufcblxhni6zj4ms11br.jpg",
-      alt: "On the road 1",
-      description:
-        'For over 30 years, Ralph has traveled throughout North America, most especially in the Southwest. His travels range from road trips across New Mexico, Utah, Nevada, Wyoming and Colorado, to solitary solo expeditions along the Rio Grande river basin, the Sonoran Desert and deep into Monument Valley. Ralph often revisited his favorite spots throughout his life. "The United States is absolutely gorgeous."',
-    },
-    {
-      image:
-        "https://res.cloudinary.com/dey7en5ho/image/upload/v1720570155/neil/gwyyuy9l3adyhaz3imht.jpg",
-      alt: "On the road 2",
-      description:
-        'In 2017, Neill ventured to Patagonia and Antarctica. He loved the open roads and remoteness of Patagonia. The vistas…the mountains…everywhere he looked was beautiful. He spent time on a ranch photographing the Gauchos, who had never been photographed before. He had a blast."',
-    },
-    {
-      image:
-        "https://res.cloudinary.com/dey7en5ho/image/upload/v1720570155/neil/r3bxxhun1manztxxwj1g.jpg",
-      alt: "On the road 2",
-      description:
-        'In 2016, Neill spent 18 days driving around Iceland, camping in caves and capturing the unique landscape. He described it as one of the best trips he had ever taken. “It was like being on a different planet.”"',
-    },
-  ];
+  const descriptionData = await directus.request(
+    readItems("categories", {
+      filter: {
+        slug: {
+          _eq: params.slug,
+        },
+      },
+      fields: ["description"],
+    })
+  );
+
+  const photos = await getPictures(params.slug);
+
+  if (!photos) {
+    notFound();
+  }
 
   const imagesWithBlur = await Promise.all(
-    images.map(async (image) => {
-      const imageData = await fetchImageData(`${image.image}`);
+    photos.map(async (image) => {
+      const imageData = await fetchImageData(
+        `${process.env.NEXT_PUBLIC_ASSETS_URL}${image.image}`
+      );
       return { ...image, blurDataURL: imageData.base64 };
     })
   );
 
   return (
     <PaddingContainer className="mt-20">
-      <ImageSliderWrapper imagesWithBlur={imagesWithBlur} />
+      <ImageSliderWrapper
+        imagesWithBlur={imagesWithBlur}
+        description={descriptionData[0].description}
+      />
     </PaddingContainer>
   );
 };

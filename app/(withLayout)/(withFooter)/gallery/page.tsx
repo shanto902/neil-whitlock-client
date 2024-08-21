@@ -1,13 +1,15 @@
 import GalleryCard from "@/components/gallery/GalleryCard";
 import PaddingContainer from "@/components/layout/PaddingContainer";
 import PageTitle from "@/components/PageTitle";
-import { categories } from "@/data/category";
+
+import useCategories from "@/hooks/useCategories";
 import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Gallery | Neill Whitlock",
   description: "Photography Website",
 };
-const GalleryPage = () => {
+const GalleryPage = async () => {
+  const categories = await useCategories();
   return (
     <PaddingContainer className="mt-20 ">
       <PageTitle>GALLERY</PageTitle>
@@ -24,15 +26,17 @@ const GalleryPage = () => {
           <div
             key={category.id}
             className={`${
-              category.id === 7 && "lg:col-span-3 md:col-span-2 col-span-1"
+              category.shape === "wide" &&
+              "lg:col-span-3 md:col-span-2 col-span-1"
             }`}
           >
             <GalleryCard
               id={category.id}
               name={category.name}
-              image={category.image}
+              thumbnail={category.thumbnail}
               slug={category.slug}
               key={category.id}
+              shape={category.shape}
             />
           </div>
         ))}

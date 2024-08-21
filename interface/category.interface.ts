@@ -1,6 +1,7 @@
 export type TCategory = {
   id: number;
   name: string;
-  image: string;
+  thumbnail: string;
   slug: string;
+  shape: string;
 };

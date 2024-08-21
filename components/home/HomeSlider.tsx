@@ -6,7 +6,7 @@ import "swiper/css/scrollbar";
 import { Scrollbar } from "swiper/modules";
 import PaddingContainer from "../layout/PaddingContainer";
 import DynamicImage from "../DynamicImage";
-import { TSlider } from "@/app/(withLayout)/page";
+import { TSlider } from "@/interface/homeSlider.interface";
 
 const HomeSlider = ({ sliderData }: { sliderData: TSlider[] }) => {
   return (
@@ -23,9 +23,9 @@ const HomeSlider = ({ sliderData }: { sliderData: TSlider[] }) => {
             {/* Background Image */}
             <DynamicImage
               key={i}
-              url={slider.backgroundImageURL}
+              image={slider.picture}
               alt={slider.title}
-              className="absolute inset-0 object-cover w-full h-full"
+              className="absolute inset-0 w-full h-full"
               blurDataURL={slider.blurDataURL}
             />
 
@@ -39,7 +39,7 @@ const HomeSlider = ({ sliderData }: { sliderData: TSlider[] }) => {
                   {slider.title}
                 </h2>
                 <p className="text-white mt-3 text-sm font-medium tracking-wider">
-                  {slider.date}
+                  {slider.description}
                 </p>
               </div>
             </PaddingContainer>

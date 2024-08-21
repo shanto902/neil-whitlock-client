@@ -9,11 +9,18 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import arrowLeft from "@/public/assets/svg/arrow_left.svg";
 import arrowRight from "@/public/assets/svg/arrow_right.svg";
-import { TImageData } from "@/app/(withLayout)/(withFooter)/gallery/[slug]/page";
+
 import DynamicImage from "../DynamicImage";
 import PageTitle from "../PageTitle";
+import { TImageData } from "@/interface/pictures.interface";
 
-function ImageSlider({ imagesWithBlur }: { imagesWithBlur: TImageData[] }) {
+function ImageSlider({
+  imagesWithBlur,
+  description,
+}: {
+  imagesWithBlur: TImageData[];
+  description: string;
+}) {
   const [fadeClass, setFadeClass] = useState("fade-in");
   const router = useRouter();
   const pathname = usePathname();
@@ -72,7 +79,7 @@ function ImageSlider({ imagesWithBlur }: { imagesWithBlur: TImageData[] }) {
       return (
         <div className="custom-thumb">
           <Image
-            src={imagesWithBlur[i].image}
+            src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${imagesWithBlur[i].image}`}
             alt={imagesWithBlur[i].alt}
             width={80}
             height={60}
@@ -83,7 +90,7 @@ function ImageSlider({ imagesWithBlur }: { imagesWithBlur: TImageData[] }) {
     },
     dots: true,
     dotsClass: "slick-dots slick-thumb",
-    infinite: true,
+    infinite: false,
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -120,16 +127,13 @@ function ImageSlider({ imagesWithBlur }: { imagesWithBlur: TImageData[] }) {
       <div>
         <Slider {...settings}>
           {imagesWithBlur.map((img, index) => (
-            <div
-              key={index}
-              className="!flex items-center lg:h-[931px] h-[350px] justify-center"
-            >
+            <div key={index} className="!flex items-center  justify-center ">
               <DynamicImage
                 size={{ height: 931, width: 1267 }}
                 blurDataURL={img.blurDataURL as string}
-                url={img.image}
+                image={img.image}
                 alt={img.alt}
-                className="bg-contain mx-auto"
+                className=" bg-black mx-auto lg:h-[700px] h-[350px]"
               />
             </div>
           ))}
@@ -143,12 +147,14 @@ function ImageSlider({ imagesWithBlur }: { imagesWithBlur: TImageData[] }) {
       </div>
 
       <div
-        className={` mt-5 transition-opacity duration-500 text-center mb-10 ${
-          fadeClass === "fade-in" ? "opacity-100" : "opacity-0"
-        }`}
+        // className={` mt-5 transition-opacity duration-500 text-center mb-10 ${
+        //   fadeClass === "fade-in" ? "opacity-100" : "opacity-0"
+        // }`}
+        className={` mt-5 text-center mb-10`}
       >
         <div className="max-w-7xl mx-auto py-10 text-center text-white text-sm font-semibold text-pretty leading-[35px] tracking-widest">
-          {imagesWithBlur[currentIndex]?.description}
+          {/* {imagesWithBlur[currentIndex]?.description} */}
+          {description}
         </div>
       </div>
     </div>
