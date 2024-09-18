@@ -13,14 +13,15 @@ const DynamicImage = ({
   className,
   blurDataURL,
   size,
+  isCover = false,
 }: {
   image: string;
   alt: string;
   className: string;
   blurDataURL: string;
   size?: TSize;
+  isCover?: boolean;
 }) => {
-  console.log(image);
   return (
     <div
       className={twMerge(
@@ -31,7 +32,9 @@ const DynamicImage = ({
       <Zoom>
         <Image
           src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${image}`}
-          className={twMerge(!size && "object-cover ", "object-cover")}
+          className={` ${
+            isCover ? "object-cover" : "object-contain"
+          } aspect-video`}
           fill={!size && true}
           alt={alt || ""}
           placeholder="blur"

@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "About | Neill Whitlock",
+  title: "ABOUT | NEILL WHITLOCK",
   description: "Biography of Neill Whitlock",
 };
 const page = () => {

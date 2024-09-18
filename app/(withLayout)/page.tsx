@@ -5,7 +5,7 @@ import { fetchImageData } from "@/lib/imageFetcher";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Home | Neill Whitlock",
+  title: "HOME | NEILL WHITLOCK",
   description: "...",
 };
 

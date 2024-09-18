@@ -3,7 +3,7 @@ import "./globals.css";
 import { Montserrat } from "next/font/google";
 const montserrat = Montserrat({ subsets: ["latin"] });
 export const metadata: Metadata = {
-  title: "Neill Whitlock",
+  title: "NEILL WHITLOCK",
   description: "Photography Website",
 };
 export default async function RootLayout({

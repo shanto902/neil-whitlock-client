@@ -5,7 +5,7 @@ import PageTitle from "@/components/PageTitle";
 import useCategories from "@/hooks/useCategories";
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Gallery | Neill Whitlock",
+  title: "GALLERY | NEILL WHITLOCK",
   description: "Photography Website",
 };
 const GalleryPage = async () => {

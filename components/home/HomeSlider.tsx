@@ -27,6 +27,7 @@ const HomeSlider = ({ sliderData }: { sliderData: TSlider[] }) => {
               alt={slider.title}
               className="absolute inset-0 w-full h-full"
               blurDataURL={slider.blurDataURL}
+              isCover
             />
 
             {/* Dark Overlay */}

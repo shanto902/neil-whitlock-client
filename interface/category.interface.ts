@@ -4,4 +4,5 @@ export type TCategory = {
   thumbnail: string;
   slug: string;
   shape: string;
+  description?: string;
 };

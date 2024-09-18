@@ -28,9 +28,12 @@ const NavBar = () => {
     <>
       <nav className="absolute px-8 bg-transparent z-10 top-0 left-1/2 transform -translate-x-1/2 h-20 flex justify-between items-center w-full container">
         <div className="flex-1">
-          <div className="text-white lg:text-4xl md:text-3xl text-2xl whitespace-nowrap font-light tracking-[3.60px] uppercase">
+          <Link
+            href={"/"}
+            className="text-white lg:text-4xl md:text-3xl text-2xl whitespace-nowrap font-light tracking-[3.60px] uppercase"
+          >
             Neill Whitlock
-          </div>
+          </Link>
         </div>
         <div className="flex flex-1 w-full justify-end">
           <ul className="uppercase hidden md:flex text-white gap-5">

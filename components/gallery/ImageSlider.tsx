@@ -17,9 +17,11 @@ import { TImageData } from "@/interface/pictures.interface";
 function ImageSlider({
   imagesWithBlur,
   description,
+  name,
 }: {
   imagesWithBlur: TImageData[];
   description: string;
+  name: string;
 }) {
   const [fadeClass, setFadeClass] = useState("fade-in");
   const router = useRouter();
@@ -77,37 +79,27 @@ function ImageSlider({
   const settings = {
     customPaging: function (i: number) {
       return (
-        <div className="custom-thumb">
+        <div style={{ maxHeight: "150px", width: "auto" }}>
           <Image
             src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${imagesWithBlur[i].image}`}
             alt={imagesWithBlur[i].alt}
-            width={80}
-            height={60}
-            className="object-cover w-full h-full"
+            layout="intrinsic" // Makes sure the image is rendered with intrinsic size
+            width={300} // You can adjust width as per the desired layout
+            height={150} // Adjust height to match the required size
+            objectFit="cover" // Ensures the image covers the entire area while maintaining aspect ratio
           />
         </div>
       );
     },
+
     dots: true,
     dotsClass: "slick-dots slick-thumb",
     infinite: false,
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    nextArrow: (
-      <CustomNextArrow
-        onClick={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
-    ),
-    prevArrow: (
-      <CustomPrevArrow
-        onClick={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
-    ),
+    nextArrow: <CustomNextArrow onClick={() => {}} />,
+    prevArrow: <CustomPrevArrow onClick={() => {}} />,
     beforeChange: handleBeforeChange,
     initialSlide: currentIndex !== null ? currentIndex : 0, // Use currentIndex if it's set
     afterChange: (index: number) => {
@@ -122,18 +114,21 @@ function ImageSlider({
 
   return (
     <div className="gallery mx-auto max-w-7xl">
-      <PageTitle> ON THE ROAD</PageTitle>
+      <PageTitle>{name}</PageTitle>
 
       <div>
-        <Slider {...settings}>
+        <Slider draggable={false} {...settings}>
           {imagesWithBlur.map((img, index) => (
             <div key={index} className="!flex items-center  justify-center ">
               <DynamicImage
-                size={{ height: 931, width: 1267 }}
+                size={{
+                  height: img.height as number,
+                  width: img.width as number,
+                }}
                 blurDataURL={img.blurDataURL as string}
                 image={img.image}
                 alt={img.alt}
-                className=" bg-black mx-auto lg:h-[700px] h-[350px]"
+                className="  mx-auto lg:h-[70vh] h-[350px] bg-contain "
               />
             </div>
           ))}
@@ -146,14 +141,8 @@ function ImageSlider({
         </span>
       </div>
 
-      <div
-        // className={` mt-5 transition-opacity duration-500 text-center mb-10 ${
-        //   fadeClass === "fade-in" ? "opacity-100" : "opacity-0"
-        // }`}
-        className={` mt-5 text-center mb-10`}
-      >
+      <div className="  text-center mb-10">
         <div className="max-w-7xl mx-auto py-10 text-center text-white text-sm font-semibold text-pretty leading-[35px] tracking-widest">
-          {/* {imagesWithBlur[currentIndex]?.description} */}
           {description}
         </div>
       </div>
