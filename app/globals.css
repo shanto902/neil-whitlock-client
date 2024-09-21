@@ -46,3 +46,8 @@
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--tertiary);
 }
+
+/* Modal Overlay */
+[data-rmiz-modal-overlay="visible"] {
+  background-color: #000 !important;
+}

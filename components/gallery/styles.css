@@ -3,21 +3,8 @@
   outline: none;
 }
 
-/* Slick Dots Styles */
-.slick-dots {
-  padding-top: 50px;
-}
-
 /* Slick Thumbnail Styles */
 .slick-thumb {
-  bottom: -95px !important;
-  padding-bottom: 5px !important;
-  white-space: nowrap;
-  overflow-x: auto;
-  list-style: none;
-  width: 100%; /* Ensure it takes full width */
-  max-width: 100%; /* Prevent overflow */
-  display: flex; /* Make thumbnails appear in a row */
 }
 
 /* Thumbnail Slider */
@@ -25,7 +12,7 @@
   overflow-x: auto;
   cursor: grab;
   user-select: none;
-  padding-bottom: 20px; /* Add padding to show scrollbar */
+  /* Add padding to show scrollbar */
 }
 
 .thumbnail-slider:active {
@@ -68,25 +55,8 @@
   background: #555;
 }
 
-/* Image Container Styles */
-.image-container {
-  display: flex;
-  flex-grow: 1;
-  overflow-x: auto;
-  align-items: center;
-  max-width: 300px;
-}
-
-.image-container img {
-  /* Maintain aspect ratio, scaling the image within its container */
-}
-
 /* Media Query for Responsive Design */
 @media (max-width: 768px) {
-  .slick-dots.slick-thumb li {
-    width: 60px;
-    height: 45px;
-  }
 }
 
 /* Modal Overlay */

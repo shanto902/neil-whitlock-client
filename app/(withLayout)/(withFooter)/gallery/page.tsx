@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 };
 const GalleryPage = async () => {
   const categories = await useCategories();
+
   return (
     <PaddingContainer className="mt-20 ">
       <PageTitle>GALLERY</PageTitle>
