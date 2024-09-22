@@ -134,7 +134,7 @@ const ImagesPage = async ({
       {photos.map((image, i) => (
         // Wrapping each image in Suspense for lazy loading fallback
 
-        <Link key={i} href={`/photo/${image.id}`}>
+        <Link scroll={false} key={i} href={`/photo/${image.id}`}>
           <ZoomImage image={image} />
         </Link>
       ))}

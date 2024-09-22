@@ -11,7 +11,7 @@ interface ImageDetailProps {
 
 const ImageDetail: FC<ImageDetailProps> = ({ photo }) => {
   return (
-    <div className="p-4">
+    <div className="p-4 modal-content">
       <div className="relative mx-auto">
         <Zoom>
           <Image
@@ -19,7 +19,7 @@ const ImageDetail: FC<ImageDetailProps> = ({ photo }) => {
             width={photo.width}
             height={photo.height}
             alt={photo.alt}
-            className="object-contain"
+            className="object-contain image-contain"
             layout="responsive"
             priority
             placeholder="blur"

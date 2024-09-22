@@ -1,5 +1,4 @@
-import ButtonCloseModal from "@/components/gallery/ButtonCloseModal";
-import ImageDetail from "@/components/gallery/ImageDetail";
+import Modal from "@/components/modal/Modal";
 import { TImageData } from "@/interface/pictures.interface";
 import directus from "@/lib/directus";
 import { fetchImageData } from "@/lib/imageFetcher";
@@ -33,7 +32,7 @@ const ModalDetailPage: FC<ModalDetailPageProps> = async ({ params }) => {
         width: fileData.width,
         height: fileData.height,
         blurDataURL: imageData.base64,
-      };
+      } as TImageData;
     } catch (error) {
       console.error("Error fetching photo", error);
     }
@@ -41,10 +40,13 @@ const ModalDetailPage: FC<ModalDetailPageProps> = async ({ params }) => {
   // Fetch the photo data
   const photo = await getPhoto();
 
+  if (!photo) {
+    return;
+  }
+
   return (
-    <div className="fixed inset-0 bg-zinc-900/80 z-10 flex justify-center items-center">
-      <ImageDetail photo={photo as TImageData} />
-      <ButtonCloseModal />
+    <div className="fixed inset-0 bg-stone-900/50 z-10 flex justify-center items-center">
+      <Modal photo={photo}></Modal>
     </div>
   );
 };
