@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import "./styles.css";
 import { TImageData } from "@/interface/pictures.interface";
 import Image from "next/image";
@@ -11,7 +11,12 @@ const Modal = ({ photo }: { photo: TImageData }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      const { width, height } = calculateImageSize(photo.width, photo.height);
+      const { width, height } = calculateImageSize(
+        0.9,
+        0.9,
+        photo.width,
+        photo.height
+      );
       setImageSize({ width, height });
     };
 
@@ -27,16 +32,18 @@ const Modal = ({ photo }: { photo: TImageData }) => {
   return (
     <div>
       <div className="modal-content bg-contain">
-        <Image
-          src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${photo.image}`}
-          width={imageSize.width}
-          height={imageSize.height}
-          alt={photo.alt}
-          style={{ objectFit: "contain" }}
-          className="object-contain image-contain"
-          placeholder="blur"
-          blurDataURL={photo.blurDataURL as string}
-        />
+        <Suspense>
+          <Image
+            src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${photo.image}`}
+            width={imageSize.width}
+            height={imageSize.height}
+            alt={photo.alt}
+            style={{ objectFit: "contain" }}
+            className="object-contain image-contain"
+            placeholder="blur"
+            blurDataURL={photo.blurDataURL as string}
+          />
+        </Suspense>
       </div>
       <ButtonCloseModal />
     </div>

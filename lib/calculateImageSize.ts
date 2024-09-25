@@ -1,7 +1,12 @@
-export const calculateImageSize = (imageWidth: number, imageHeight: number) => {
+export const calculateImageSize = (
+  width: number,
+  height: number,
+  imageWidth: number,
+  imageHeight: number
+) => {
   // Get viewport dimensions
-  const maxWidth = window.innerWidth * 0.95; // 90% of viewport width
-  const maxHeight = window.innerHeight * 0.95; // 90% of viewport height
+  const maxWidth = window.innerWidth * width; // 90% of viewport width
+  const maxHeight = window.innerHeight * height; // 90% of viewport height
 
   // Calculate the aspect ratio of the image
   const imageAspectRatio = imageWidth / imageHeight;

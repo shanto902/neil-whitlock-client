@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@directus/sdk": "^17.0.0",
+    "@egjs/react-flicking": "^4.11.4",
     "@plaiceholder/next": "^3.0.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/react-beautiful-dnd": "^13.1.8",
@@ -24,7 +25,9 @@
     "react-icons": "^5.2.1",
     "react-intersection-observer": "^9.13.1",
     "react-medium-image-zoom": "^5.2.8",
+    "react-multi-carousel": "^2.8.5",
     "react-slick": "^0.30.2",
+    "react-swipeable": "^7.0.1",
     "sharp": "^0.33.4",
     "slick-carousel": "^1.8.1",
     "swiper": "^11.1.4",
