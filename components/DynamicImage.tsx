@@ -1,7 +1,7 @@
 // components/DynamicImage.tsx
 import Image from "next/image";
 import { twMerge } from "tailwind-merge";
-import "react-medium-image-zoom/dist/styles.css";
+
 export type TSize = {
   height: number;
   width: number;

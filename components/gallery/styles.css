@@ -3,10 +3,6 @@
   outline: none;
 }
 
-/* Slick Thumbnail Styles */
-.slick-thumb {
-}
-
 /* Thumbnail Slider */
 .thumbnail-slider {
   overflow-x: auto;
@@ -62,4 +58,14 @@
 /* Modal Overlay */
 [data-rmiz-modal-overlay="visible"] {
   background-color: #000 !important;
+}
+
+.react-multi-carousel-track {
+  padding-bottom: 30px;
+}
+.react-multi-carousel-dot--active button {
+  background: white;
+}
+.react-multi-carousel-track {
+  gap: 0.25rem;
 }

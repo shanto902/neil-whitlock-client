@@ -1,54 +1,8 @@
-import ZoomImage from "@/components/gallery/ZoomImage";
-import { TCategory } from "@/interface/category.interface";
-import { TImageData } from "@/interface/pictures.interface";
 import directus from "@/lib/directus";
-import { readFile, readItems } from "@directus/sdk";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import { readItems } from "@directus/sdk";
+import { redirect } from "next/navigation"; // Import the redirect function
 
-const getCategoryName = async (slug: string) => {
-  try {
-    const result = await directus.request(
-      readItems("categories", {
-        filter: {
-          slug: {
-            _eq: slug,
-          },
-        },
-        fields: ["id", "name", "description", "slug"],
-        sort: ["sort"],
-      })
-    );
-    return result[0] as TCategory;
-  } catch (error) {
-    console.error("Error category", error);
-    throw new Error("Error fetching category");
-  }
-};
-
-export const generateMetadata = async ({
-  params: { slug },
-}: {
-  params: {
-    slug: string;
-  };
-}) => {
-  const categoryName = await getCategoryName(slug);
-
-  return {
-    metadataBase: new URL(`${process.env.NEXT_PUBLIC_SITE_URL}`),
-    title: `${categoryName.name} | GALLERY | NEILL WHITLOCK`,
-    description: categoryName.description,
-    openGraph: {
-      title: categoryName.name,
-      description: categoryName.description,
-      url: `${process.env.NEXT_PUBLIC_SITE_URL}/${categoryName.slug}`,
-      siteName: "Neil Whitlock Photography",
-      type: "website",
-    },
-  };
-};
-
+// Generate static params for dynamic routes
 export async function generateStaticParams() {
   try {
     const categories = await directus.request(
@@ -56,7 +10,6 @@ export async function generateStaticParams() {
         fields: ["id", "slug"], // Include 'slug' in the fields to fetch
       })
     );
-
     return categories.map((category) => ({
       slug: category.slug,
     }));
@@ -65,74 +18,53 @@ export async function generateStaticParams() {
     throw new Error("Error fetching categories");
   }
 }
-
-const getPictures = async (slug: string) => {
+// Fetch the URL based on the slug
+const getUrl = async (slug: string) => {
   try {
     const result = await directus.request(
       readItems("pictures", {
+        fields: ["id", "category.slug"],
         filter: {
-          status: {
-            _eq: "published",
-          },
           category: {
             slug: {
               _eq: slug,
             },
           },
         },
-        fields: ["id", "image", "alt", "category.slug"],
-        sort: ["sort"],
+        sort: ["sort"], // Ensure sorting is applied
+        limit: 1, // Fetch only the first image (if needed)
       })
     );
 
-    // Combine fetching image data (blur data + dimensions) in one step
-    const newResult = await Promise.all(
-      result.map(async (picture) => {
-        // Fetch width and height of the image
-        const fileData = await directus.request(
-          readFile(picture.image, {
-            fields: ["width", "height"],
-          })
-        );
-        return {
-          ...picture,
-          width: fileData.width,
-          height: fileData.height,
-        };
-      })
-    );
-
-    return newResult as TImageData[];
+    // Return the first result
+    return result.length > 0 ? (result[0] as { id: string }) : null;
   } catch (error) {
-    console.error("Error fetching picture data:", error);
-    throw new Error("Error fetching pictures");
+    console.error("Error fetching photos", error);
   }
 };
 
-const ImagesPage = async ({
+// Page component for handling redirection
+const Page = async ({
   params,
 }: {
   params: {
     slug: string;
   };
 }) => {
-  const photos = await getPictures(params.slug);
+  // Fetch the first image URL using the slug
+  const url = await getUrl(params.slug);
 
-  if (!photos) {
-    notFound();
+  // If the URL is found, redirect the user to the photo's page
+  if (url) {
+    redirect(`/gallery/${params.slug}/${url.id}`);
   }
 
+  // If no URL is found, return a fallback UI (or handle the error appropriately)
   return (
-    <div className="columns-1 gap-3 sm:columns-2 sm:gap-5 md:columns-3 lg:columns-4 mb-20">
-      {photos.map((image, i) => (
-        // Wrapping each image in Suspense for lazy loading fallback
-
-        <Link scroll={false} key={i} href={`/photo/${image.id}`}>
-          <ZoomImage image={image} />
-        </Link>
-      ))}
+    <div className="flex items-center justify-center h-screen">
+      <h1>No photos found for this category.</h1>
     </div>
   );
 };
 
-export default ImagesPage;
+export default Page;

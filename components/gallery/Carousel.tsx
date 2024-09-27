@@ -5,6 +5,10 @@ import "react-multi-carousel/lib/styles.css";
 import Image from "next/image";
 import Link from "next/link";
 import SelectedImage from "./SelectedImage";
+import "./styles.css";
+import clsx from "clsx";
+import { useState } from "react";
+
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
@@ -18,10 +22,11 @@ const responsive = {
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
-    items: 1,
-    slidesToSlide: 1, // optional, default to 1.
+    items: 4,
+    slidesToSlide: 4, // optional, default to 1.
   },
 };
+
 const CarouselSlide = ({
   photos,
   params,
@@ -31,17 +36,34 @@ const CarouselSlide = ({
     slug: string;
   };
 }) => {
+  // State to track loading state for each image individually
+  const [isLoading, setIsLoading] = useState<boolean[]>(
+    Array(photos.length).fill(true)
+  );
+
+  // Function to handle the loading state when an image is loaded
+  const handleImageLoad = (index: number) => {
+    setIsLoading((prev) => {
+      const newLoadingState = [...prev];
+      newLoadingState[index] = false; // Set the loading state for the specific image
+      return newLoadingState;
+    });
+  };
+
   return (
     <Carousel
-      className="max-w-6xl mx-auto"
-      swipeable={true}
-      draggable={false}
+      className="mx-auto"
+      swipeable
+      arrows={false}
+      showDots
+      renderButtonGroupOutside={false}
       responsive={responsive}
       ssr={true} // means to render carousel on server-side.
       infinite={false}
       keyBoardControl={true}
       customTransition="all .5"
       transitionDuration={500}
+      draggable
       containerClass="carousel-container"
       removeArrowOnDeviceType={["tablet", "mobile"]}
       itemClass="carousel-item-padding-40-px"
@@ -49,16 +71,29 @@ const CarouselSlide = ({
       {photos.map((image, i) => (
         <Link
           scroll={false}
-          className=" relative" // Align items vertically
+          className="relative"
           key={i}
-          href={`/gallery-2/${params.slug}/${image.id}`}
+          href={`/gallery/${params.slug}/${image.id}`}
         >
+          {isLoading[i] && (
+            <div
+              className="animate-pulse bg-stone-700"
+              style={{
+                height: "100%",
+                width: "100%",
+              }}
+            ></div>
+          )}
           <Image
-            className="object-cover w-20 aspect-square " // Fixed height, width adjusts automatically
             src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${image.image}`}
             alt={image.alt}
             height={image.height}
             width={image.width}
+            className={clsx(
+              "object-cover aspect-[4/3] transition-opacity duration-300",
+              isLoading[i] ? "opacity-0" : "opacity-100"
+            )}
+            onLoad={() => handleImageLoad(i)}
           />
           <SelectedImage id={image.id} />
         </Link>
