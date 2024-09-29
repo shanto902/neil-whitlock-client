@@ -1,25 +1,15 @@
-import EmblaCarousel from "@/components/carousel/EmblaCarousel";
-import { TImageData } from "@/interface/pictures.interface";
 import directus from "@/lib/directus";
 import { readFile, readItems } from "@directus/sdk";
-import { EmblaOptionsType } from "embla-carousel";
+import { useState, useEffect } from "react";
 
-// Generate static params for dynamic routes
-export async function generateStaticParams() {
-  try {
-    const categories = await directus.request(
-      readItems("categories", {
-        fields: ["id", "slug"], // Include 'slug' in the fields to fetch
-      })
-    );
-    return categories.map((category) => ({
-      slug: category.slug,
-    }));
-  } catch (error) {
-    console.error("Error generating static params:", error);
-    throw new Error("Error fetching categories");
-  }
-}
+type TImageData = {
+  id: number;
+  image: string;
+  alt: string;
+  category: { slug: string };
+  width: number;
+  height: number;
+};
 
 const getPictures = async (slug: string) => {
   try {
@@ -40,10 +30,8 @@ const getPictures = async (slug: string) => {
       })
     );
 
-    // Combine fetching image data (blur data + dimensions) in one step
     const newResult = await Promise.all(
       result.map(async (picture) => {
-        // Fetch width and height of the image
         const fileData = await directus.request(
           readFile(picture.image, {
             fields: ["width", "height"],
@@ -64,11 +52,28 @@ const getPictures = async (slug: string) => {
   }
 };
 
-const SliderPage = async ({ params }: { params: { slug: string } }) => {
-  const OPTIONS: EmblaOptionsType = {};
-  const pictures = await getPictures(params.slug);
+const usePictures = (slug: string) => {
+  const [pictures, setPictures] = useState<TImageData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  return <EmblaCarousel slides={pictures} options={OPTIONS} />;
+  useEffect(() => {
+    const fetchPictures = async () => {
+      try {
+        setLoading(true);
+        const data = await getPictures(slug);
+        setPictures(data as TImageData[]);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPictures();
+  }, [slug]);
+
+  return { pictures, loading, error };
 };
 
-export default SliderPage;
+export default usePictures;
