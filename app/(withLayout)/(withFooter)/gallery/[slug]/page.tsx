@@ -18,6 +18,7 @@ export async function generateStaticParams() {
     throw new Error("Error fetching categories");
   }
 }
+
 // Fetch the URL based on the slug
 const getUrl = async (slug: string) => {
   try {
@@ -40,17 +41,12 @@ const getUrl = async (slug: string) => {
     return result.length > 0 ? (result[0] as { id: string }) : null;
   } catch (error) {
     console.error("Error fetching photos", error);
+    return null;
   }
 };
 
-// Page component for handling redirection
-const Page = async ({
-  params,
-}: {
-  params: {
-    slug: string;
-  };
-}) => {
+// Page component for handling server-side redirection
+const Page = async ({ params }: { params: { slug: string } }) => {
   // Fetch the first image URL using the slug
   const url = await getUrl(params.slug);
 
