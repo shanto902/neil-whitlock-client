@@ -25,7 +25,7 @@ const NavBar = () => {
       : "font-normal";
 
   return (
-    <>
+    <main>
       <nav className="absolute px-8  bg-transparent z-10 top-0 left-1/2 transform -translate-x-1/2 h-20 flex md:flex-col md:my-5 lg:my-0 lg:flex-row justify-between items-center w-full container">
         <div className="flex-1">
           <Link
@@ -81,7 +81,7 @@ const NavBar = () => {
           ))}
         </ul>
       </div>
-    </>
+    </main>
   );
 };
 

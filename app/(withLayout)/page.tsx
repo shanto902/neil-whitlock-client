@@ -20,9 +20,5 @@ export default async function Home() {
     })
   );
 
-  return (
-    <>
-      <HomeSlider sliderData={sliderDataWithBlur} />
-    </>
-  );
+  return <HomeSlider sliderData={sliderDataWithBlur} />;
 }

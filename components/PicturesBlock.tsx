@@ -21,9 +21,9 @@ const PicturesBlock = ({ pictures }: { pictures: any[] }) => {
         <Zoom key={picture.id}>
           <Image
             src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${picture.item.picture}`}
-            alt={picture.alt || "About image"}
-            width={picture.item.size === "wide" ? 1920 : 800}
-            height={600}
+            alt={picture?.alt || "About image"}
+            width={picture?.width}
+            height={picture?.height}
             className={`object-cover  ${
               pictures.length === 1 ? "aspect-auto" : "aspect-[4/3]"
             }`}

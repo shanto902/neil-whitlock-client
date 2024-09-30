@@ -11,7 +11,6 @@ const PageAnimatePresence = ({ children }: { children: ReactNode }) => {
   // Check if the pathname is exactly '/gallery' (root page) to skip animations
   const isRootGalleryPage = pathname === "/gallery";
 
-  console.log(isRootGalleryPage);
   return (
     <>
       {" "}

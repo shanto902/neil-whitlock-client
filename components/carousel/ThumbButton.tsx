@@ -12,7 +12,7 @@ type PropType = {
 export const Thumb: React.FC<PropType> = (props) => {
   const { selected, index, onClick, thumbnailSrc } = props;
   const [isLoading, setIsLoading] = useState(true);
-  console.log(props);
+
   return (
     <div
       className={"embla-thumbs__slide".concat(
