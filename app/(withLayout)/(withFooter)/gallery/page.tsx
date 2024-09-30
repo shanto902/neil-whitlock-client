@@ -29,6 +29,9 @@ const GalleryPage = async () => {
             className={`${
               category.shape === "wide" &&
               "lg:col-span-3 md:col-span-2 col-span-1"
+            } ${
+              category.shape === "rectangle" &&
+              "lg:col-span-2 md:col-span-2 col-span-1"
             }`}
           >
             <GalleryCard

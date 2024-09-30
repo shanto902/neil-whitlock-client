@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
-import arrow from "@/public/assets/svg/arrow.svg";
-import Image from "next/image";
+
 import PaddingContainer from "./layout/PaddingContainer";
 import { categories } from "@/data/category";
 import { usePathname } from "next/navigation";
+import ScrollToTop from "./ScrollToTop";
 
 const Footer = () => {
   const pathname = usePathname();
@@ -67,7 +67,7 @@ const Footer = () => {
         </p>
       </div>
       <div className="absolute bottom-5 flex justify-center w-full">
-        <Image alt="Scroll to top" src={arrow} />
+        <ScrollToTop />
       </div>
     </PaddingContainer>
   );

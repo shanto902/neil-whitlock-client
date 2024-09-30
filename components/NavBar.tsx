@@ -26,7 +26,7 @@ const NavBar = () => {
 
   return (
     <>
-      <nav className="absolute px-8  bg-transparent z-10 top-0 left-1/2 transform -translate-x-1/2 h-20 flex justify-between items-center w-full container">
+      <nav className="absolute px-8  bg-transparent z-10 top-0 left-1/2 transform -translate-x-1/2 h-20 flex md:flex-col md:my-5 lg:my-0 lg:flex-row justify-between items-center w-full container">
         <div className="flex-1">
           <Link
             href={"/"}
@@ -35,7 +35,7 @@ const NavBar = () => {
             Neill Whitlock
           </Link>
         </div>
-        <div className="flex flex-1 w-full justify-end">
+        <div className="flex flex-1 w-full justify-end md:justify-center lg:justify-end">
           <ul className="uppercase hidden md:flex text-white gap-5">
             {links.map((link) => (
               <li key={link.path}>

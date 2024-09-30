@@ -1,8 +1,13 @@
-import PaddingContainer from "@/components/layout/PaddingContainer";
+const PaddingContainer = dynamic(
+  () => import("@/components/layout/PaddingContainer")
+);
+
 import PageTitle from "@/components/PageTitle";
 import { TCategory } from "@/interface/category.interface";
 import directus from "@/lib/directus";
 import { readItems } from "@directus/sdk";
+import dynamic from "next/dynamic";
+import { notFound } from "next/navigation";
 import { ReactNode } from "react";
 import "react-multi-carousel/lib/styles.css";
 
@@ -37,12 +42,12 @@ export const generateMetadata = async ({
 
   return {
     metadataBase: new URL(`${process.env.NEXT_PUBLIC_SITE_URL}`),
-    title: `${categoryName.name} | GALLERY | NEILL WHITLOCK`,
-    description: categoryName.description,
+    title: `${categoryName?.name} | GALLERY | NEILL WHITLOCK`,
+    description: categoryName?.description,
     openGraph: {
-      title: categoryName.name,
-      description: categoryName.description,
-      url: `${process.env.NEXT_PUBLIC_SITE_URL}/gallery/${categoryName.slug}`,
+      title: categoryName?.name,
+      description: categoryName?.description,
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/gallery/${categoryName?.slug}`,
       siteName: "Neil Whitlock Photography",
       type: "website",
     },
@@ -89,17 +94,27 @@ const Layout = async ({
 
   // const photos = await getPictures(params.slug);
 
-  // if (!photos) {
-  //   notFound();
-  // }
+  const categories = await getCategoryName(params.slug);
+
+  if (!categories) {
+    notFound();
+  }
   return (
-    <PaddingContainer className=" relative  mt-16">
-      <PageTitle>{descriptionData[0].name}</PageTitle>
+    <PaddingContainer className="relative mt-16">
+      {/* This will enable vertical scrolling within the container */}
+      <div className="min-h-screen snap-mandatory snap-y">
+        {/* First Section: Page Title */}
+        <div className="snap-start">
+          <PageTitle>{descriptionData[0].name}</PageTitle>
+        </div>
 
-      <div className="  mb-5">{children}</div>
+        {/* Second Section: Children (Content) */}
+        <div className="snap-center h-screen mb-5">{children}</div>
 
-      <div className="mb-10 mx-auto py-0 text-center text-white text-sm font-semibold text-pretty leading-[35px] tracking-widest">
-        {descriptionData[0].description}
+        {/* Third Section: Description */}
+        <div className="snap-end mb-10 mx-auto py-0 text-center text-white text-sm font-semibold text-pretty leading-[35px] tracking-widest">
+          {descriptionData[0].description}
+        </div>
       </div>
     </PaddingContainer>
   );

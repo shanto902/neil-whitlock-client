@@ -1,4 +1,3 @@
-// app/page.tsx
 import HomeSlider from "@/components/home/HomeSlider";
 import useHomeSliders from "@/hooks/useHomeSliders";
 import { fetchImageData } from "@/lib/imageFetcher";

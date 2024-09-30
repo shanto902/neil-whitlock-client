@@ -4,10 +4,12 @@ import Image from "next/image";
 import { FC, useState } from "react";
 import clsx from "clsx";
 import { RotatingSquare } from "react-loader-spinner";
+
 interface ImageDetail2Props {
   photo: TImageData;
   className?: string;
 }
+
 const ImageDetail2: FC<ImageDetail2Props> = ({ photo, className }) => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -18,9 +20,11 @@ const ImageDetail2: FC<ImageDetail2Props> = ({ photo, className }) => {
     <div className={`relative ${className}`}>
       {isLoading && (
         <div
-          className={`" flex flex-col justify-center items-center ${
-            isLoading ? "opacity-100" : "opacity-0"
-          } transition-all duration-300"`}
+          className={clsx(
+            "absolute inset-0 flex flex-col justify-center items-center",
+            isLoading ? "opacity-100" : "opacity-0 hidden", // For smooth transition
+            "transition-opacity duration-300"
+          )}
         >
           <RotatingSquare
             visible={true}
@@ -28,10 +32,8 @@ const ImageDetail2: FC<ImageDetail2Props> = ({ photo, className }) => {
             width="100"
             color="#fff"
             ariaLabel="rotating-square-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
           />
-          <h3 className=" uppercase font-xl">Loading</h3>
+          <h3 className="uppercase font-xl text-white mt-4">Loading</h3>
         </div>
       )}
 
@@ -40,13 +42,12 @@ const ImageDetail2: FC<ImageDetail2Props> = ({ photo, className }) => {
         width={photo.width}
         height={photo.height}
         alt={photo.alt}
+        priority
         className={clsx(
-          "object-contain lg:max-h-[80dvh]  w-full transition-opacity duration-300",
+          "object-contain lg:max-h-[80dvh] w-full transition-opacity duration-300",
           isLoading ? "opacity-0" : "opacity-100"
         )}
         onLoad={() => setIsLoading(false)}
-        // blurDataURL={photo.blurDataURL}
-        // placeholder="blur"
       />
     </div>
   );
