@@ -105,7 +105,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
         <div className="embla__container">
           {slides.map((slide, index) => (
             <div
-              className="embla__slide h-[80dvh] flex justify-center items-center"
+              className="embla__slide flex justify-center items-center"
               key={index}
             >
               <ImageDetail2 photo={slide} />

@@ -15,7 +15,7 @@ const GalleryPage = async () => {
     <PaddingContainer className="mt-20 ">
       <PageTitle>GALLERY</PageTitle>
 
-      <div className="w-full h-[17px] justify-start items-center gap-3.5 inline-flex">
+      <div className="w-full justify-start items-center gap-3.5 inline-flex">
         <div className="text-zinc-100 text-sm font-normal  tracking-widest">
           CATEGORIES
         </div>

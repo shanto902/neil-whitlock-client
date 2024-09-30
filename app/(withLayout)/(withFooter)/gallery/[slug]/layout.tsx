@@ -92,28 +92,25 @@ const Layout = async ({
     })
   );
 
-  // const photos = await getPictures(params.slug);
-
   const categories = await getCategoryName(params.slug);
 
   if (!categories) {
     notFound();
   }
   return (
-    <PaddingContainer className="relative mt-16">
+    <PaddingContainer className="relative mt-20">
       {/* This will enable vertical scrolling within the container */}
-      <div className="min-h-screen snap-mandatory snap-y">
+      <div className="lg:min-h-screen">
         {/* First Section: Page Title */}
-        <div className="snap-start">
-          <PageTitle>{descriptionData[0].name}</PageTitle>
-        </div>
+
+        <PageTitle>{descriptionData[0]?.name}</PageTitle>
 
         {/* Second Section: Children (Content) */}
-        <div className="snap-center h-screen mb-5">{children}</div>
+        <div className="md:h-screen mb-5">{children}</div>
 
         {/* Third Section: Description */}
-        <div className="snap-end mb-10 mx-auto py-0 text-center text-white text-sm font-semibold text-pretty leading-[35px] tracking-widest">
-          {descriptionData[0].description}
+        <div className=" my-10 mx-auto py-0 text-center text-white text-sm font-semibold text-pretty leading-[35px] tracking-widest">
+          {descriptionData[0]?.description}
         </div>
       </div>
     </PaddingContainer>
