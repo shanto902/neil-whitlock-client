@@ -99,22 +99,21 @@ const Layout = async ({
     notFound();
   }
   return (
-    <PaddingContainer className="relative mt-20">
+    <PaddingContainer className="relative mt-20 lg:min-h-screen">
       {/* This will enable vertical scrolling within the container */}
-      <div className="lg:min-h-screen">
-        {/* First Section: Page Title */}
 
-        <PageTitle>{descriptionData[0]?.name}</PageTitle>
+      {/* First Section: Page Title */}
 
-        {/* Second Section: Children (Content) */}
-        <Suspense fallback={<Loading />}>
-          <div className="mb-5">{children}</div>
-        </Suspense>
+      <PageTitle>{descriptionData[0]?.name}</PageTitle>
 
-        {/* Third Section: Description */}
-        <div className=" my-10 mx-auto py-0 text-center text-white text-sm font-semibold text-pretty leading-[35px] tracking-widest">
-          {descriptionData[0]?.description}
-        </div>
+      {/* Second Section: Children (Content) */}
+      <Suspense fallback={<Loading />}>
+        <div className="mb-5">{children}</div>
+      </Suspense>
+
+      {/* Third Section: Description */}
+      <div className=" my-10 mx-auto py-0 text-center text-white text-sm font-semibold text-pretty leading-[35px] tracking-widest">
+        {descriptionData[0]?.description}
       </div>
     </PaddingContainer>
   );

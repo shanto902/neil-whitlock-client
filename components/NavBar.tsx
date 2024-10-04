@@ -26,7 +26,7 @@ const NavBar = () => {
 
   return (
     <main>
-      <nav className="absolute px-8  bg-transparent z-10 top-0 left-1/2 transform -translate-x-1/2 h-20 flex md:flex-col md:my-5 lg:my-0 lg:flex-row justify-between items-center w-full container">
+      <nav className="absolute px-8  bg-transparent z-10 top-0 left-1/2 transform -translate-x-1/2 h-20 flex md:flex-col md:my-5 lg:my-0 lg:flex-row justify-between items-center w-full container overflow-hidden">
         <div className="flex-1">
           <Link
             href={"/"}
@@ -57,7 +57,7 @@ const NavBar = () => {
       </nav>
       {/* Mobile navigation slider */}
       <div
-        className={`fixed top-0 right-0 h-full w-64 bg-stone-900 text-white transform ${
+        className={`fixed lg:hidden top-0 right-0 h-full w-64 bg-stone-900 text-white transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
         } transition-transform duration-300 ease-in-out z-20`}
       >

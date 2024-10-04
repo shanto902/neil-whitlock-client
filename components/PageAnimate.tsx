@@ -1,5 +1,4 @@
 "use client";
-
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { ReactNode } from "react";
@@ -12,7 +11,7 @@ const PageAnimatePresence = ({ children }: { children: ReactNode }) => {
   const isRootGalleryPage = pathname === "/gallery";
 
   return (
-    <>
+    <div>
       {" "}
       {isRootGalleryPage ? (
         <div>{children}</div>
@@ -23,7 +22,7 @@ const PageAnimatePresence = ({ children }: { children: ReactNode }) => {
           </motion.div>
         </AnimatePresence>
       )}
-    </>
+    </div>
   );
 };
 

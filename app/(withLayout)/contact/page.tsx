@@ -11,7 +11,7 @@ const ContactPage = async () => {
   const contactPageData = await directus.request(readSingleton("contact_page"));
 
   return (
-    <div>
+    <div className=" container">
       <Form />
       <Image
         src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${contactPageData.image}`}

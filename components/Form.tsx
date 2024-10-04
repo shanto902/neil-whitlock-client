@@ -4,7 +4,7 @@ import { useState } from "react";
 import PaddingContainer from "./layout/PaddingContainer";
 import directus from "@/lib/directus";
 import { createItem } from "@directus/sdk";
-import { ToastContainer, toast } from "react-toastify";
+import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 type Inputs = {
@@ -30,15 +30,20 @@ const Form = () => {
     setLoading(true); // Start loading when form submission begins
 
     // Add current timestamp to data
-    const currentDateTime = new Date().toISOString(); // Get current date and time in ISO format
+    const now = new Date();
+    const currentDateTimeUTC = new Date(
+      now.getTime() - now.getTimezoneOffset() * 60000
+    ).toISOString();
+
     const dataWithTimestamp = {
       ...data,
-      timestamp: currentDateTime, // Append timestamp to the data
+      timestamp: currentDateTimeUTC,
+      status: "unread", // Append timestamp to the data
     };
 
     try {
       await directus.request(createItem("messages", dataWithTimestamp));
-      toast.success("Message sent successfully!");
+      toast("Message sent successfully!");
 
       // Reset form after successful submission
       reset();
@@ -139,7 +144,19 @@ const Form = () => {
         </div>
       </form>
       {/* Toast Container */}
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover
+        theme="dark"
+        transition={Slide}
+      />
     </PaddingContainer>
   );
 };
