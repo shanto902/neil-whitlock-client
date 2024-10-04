@@ -12,6 +12,7 @@ type Inputs = {
   email: string;
   phone: string;
   message: string;
+  timestamp?: string; // Optional timestamp field
 };
 
 const Form = () => {
@@ -27,8 +28,16 @@ const Form = () => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoading(true); // Start loading when form submission begins
+
+    // Add current timestamp to data
+    const currentDateTime = new Date().toISOString(); // Get current date and time in ISO format
+    const dataWithTimestamp = {
+      ...data,
+      timestamp: currentDateTime, // Append timestamp to the data
+    };
+
     try {
-      await directus.request(createItem("messages", data));
+      await directus.request(createItem("messages", dataWithTimestamp));
       toast.success("Message sent successfully!");
 
       // Reset form after successful submission
@@ -43,14 +52,14 @@ const Form = () => {
   };
 
   return (
-    <PaddingContainer>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+    <PaddingContainer className="absolute bottom-5 left-0 max-w-xl justify-start items-end">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 text-xs">
         {/* Name Input */}
         <div className="flex flex-col gap-1">
           <label htmlFor="name">Name *</label>
           <input
             id="name"
-            className="bg-stone-800 px-3 py-2 border border-white"
+            className="bg-stone-800 px-3 py-2 border border-white "
             {...register("name", { required: true })}
             disabled={loading || isFormSubmitted} // Disable input when loading or form submitted
           />
@@ -117,7 +126,7 @@ const Form = () => {
         {/* Submit Button */}
         <div className="flex flex-col gap-2">
           <input
-            className={`bg-white text-black py-2 px-3 mt-10 font-semibold uppercase transition-colors duration-300 ${
+            className={`bg-white text-black py-2 px-3 mt-5 cursor-pointer font-semibold uppercase transition-colors duration-300 ${
               loading || isFormSubmitted
                 ? "cursor-not-allowed opacity-50" // Style for disabled button
                 : "hover:text-white hover:bg-black"

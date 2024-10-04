@@ -12,7 +12,7 @@ const Footer = () => {
     pathname.startsWith("/gallery/") && pathname !== "/gallery";
 
   return (
-    <PaddingContainer className="relative lg:h-[370px] md:h-[390px] sm:h-[480px] h-[550px] flex flex-col items-center justify-center text-white gap-5">
+    <PaddingContainer className="relative lg:h-[300px] md:h-[390px] sm:h-[480px] h-[550px] flex flex-col items-center justify-center text-white gap-5">
       {isGalleryPage && (
         <nav className="w-full absolute top-0">
           <ul className="flex flex-wrap md:gap-10 gap-5 justify-center items-center tracking-wider uppercase text-sm font-normal px-4 sm:px-8 md:px-16 lg:px-20 mb-10">

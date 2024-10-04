@@ -2,13 +2,14 @@ const PaddingContainer = dynamic(
   () => import("@/components/layout/PaddingContainer")
 );
 
+import Loading from "@/components/Loading";
 import PageTitle from "@/components/PageTitle";
 import { TCategory } from "@/interface/category.interface";
 import directus from "@/lib/directus";
 import { readItems } from "@directus/sdk";
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 import "react-multi-carousel/lib/styles.css";
 
 const getCategoryName = async (slug: string) => {
@@ -106,7 +107,9 @@ const Layout = async ({
         <PageTitle>{descriptionData[0]?.name}</PageTitle>
 
         {/* Second Section: Children (Content) */}
-        <div className="md:h-screen mb-5">{children}</div>
+        <Suspense fallback={<Loading />}>
+          <div className="mb-5">{children}</div>
+        </Suspense>
 
         {/* Third Section: Description */}
         <div className=" my-10 mx-auto py-0 text-center text-white text-sm font-semibold text-pretty leading-[35px] tracking-widest">
