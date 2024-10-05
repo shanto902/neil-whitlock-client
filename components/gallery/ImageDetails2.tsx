@@ -44,7 +44,7 @@ const ImageDetail2: FC<ImageDetail2Props> = ({ photo, className }) => {
         alt={photo.alt}
         priority
         className={clsx(
-          "object-contain lg:max-h-[80dvh] w-full transition-opacity duration-300",
+          "object-contain lg:max-h-screen w-full transition-opacity duration-300",
           isLoading ? "opacity-0" : "opacity-100"
         )}
         onLoad={() => setIsLoading(false)}

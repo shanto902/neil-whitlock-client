@@ -15,7 +15,7 @@ const Footer = () => {
     <PaddingContainer className="relative lg:h-[300px] md:h-[390px] sm:h-[480px] h-[550px] flex flex-col items-center justify-center text-white gap-5">
       {isGalleryPage && (
         <nav className="w-full absolute top-0">
-          <ul className="flex flex-wrap md:gap-10 gap-5 justify-center items-center tracking-wider uppercase text-sm font-normal px-4 sm:px-8 md:px-16 lg:px-20 mb-10">
+          <ul className="flex flex-wrap md:gap-x-10 md:gap-y-5 gap-x-5 gap-y-3 justify-center items-center tracking-wider uppercase text-sm font-normal px-4 sm:px-8 md:px-16 lg:px-20 mb-10">
             {categories.map((category) => (
               <li key={category.id}>
                 <Link
@@ -63,7 +63,15 @@ const Footer = () => {
           </ul>
         </nav>
         <p className="mt-4 uppercase text-gray-400 text-xs text-center w-full px-4 sm:px-8">
-          All content Copyright © 2023 Neill Whitlock
+          All content Copyright © 2024{" "}
+          <span className=" font-bold">Neill Whitlock</span>. Developed by{" "}
+          <a
+            className="font-semibold"
+            href="https://shantosworkshop.com"
+            target="_blank"
+          >
+            Shanto&apos;s Workshop
+          </a>
         </p>
       </div>
       <div className="absolute bottom-5 flex justify-center w-full">

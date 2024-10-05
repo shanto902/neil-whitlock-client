@@ -108,7 +108,7 @@ const Layout = async ({
 
       {/* Second Section: Children (Content) */}
       <Suspense fallback={<Loading />}>
-        <div className="mb-5">{children}</div>
+        <div className="my-10">{children}</div>
       </Suspense>
 
       {/* Third Section: Description */}
