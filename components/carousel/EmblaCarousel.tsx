@@ -81,6 +81,10 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     };
   }, [router]);
 
+  document.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
+  });
+
   // Add keyboard navigation functionality
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

@@ -50,7 +50,6 @@ const Form = () => {
       setIsFormSubmitted(true); // Mark the form as submitted to disable the send button
     } catch (error) {
       toast.error("Failed to send message. Please try again.");
-      console.log(error);
     } finally {
       setLoading(false); // Stop loading after submission
     }
