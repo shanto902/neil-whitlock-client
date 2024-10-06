@@ -54,7 +54,6 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
   useEffect(() => {
     if (!emblaMainApi) return;
     onSelect();
-
     emblaMainApi.on("select", onSelect).on("reInit", onSelect);
   }, [emblaMainApi, onSelect]);
 
@@ -103,13 +102,23 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     };
   }, [emblaMainApi]);
 
+  // Arrow Navigation Handlers
+  const scrollPrev = useCallback(() => {
+    if (emblaMainApi) emblaMainApi.scrollPrev();
+  }, [emblaMainApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaMainApi) emblaMainApi.scrollNext();
+  }, [emblaMainApi]);
+
   return (
-    <div className="embla">
+    <div className="embla relative">
+      {/* Main Slider */}
       <div className="embla__viewport" ref={emblaMainRef}>
         <div className="embla__container">
           {slides.map((slide, index) => (
             <div
-              className="embla__slide flex justify-center items-center"
+              className="embla__slide flex justify-center items-end"
               key={index}
             >
               <ImageDetail2 photo={slide} />
@@ -118,6 +127,11 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
         </div>
       </div>
 
+      {/* Arrow Buttons */}
+
+      {/* Slide Counter */}
+
+      {/* Thumbnail Navigation */}
       <div className="embla-thumbs">
         <div
           className="embla-thumbs__viewport !max-h-[100px]"
@@ -135,6 +149,30 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
             ))}
           </div>
         </div>
+      </div>
+      <div className=" relative">
+        <button
+          className={`absolute left-5 top-1/2 transform -translate-y-1/2 z-20 p-2  ${
+            !emblaMainApi?.canScrollPrev() ? "opacity-30" : "opacity-100"
+          }`}
+          onClick={scrollPrev}
+          disabled={!emblaMainApi?.canScrollPrev()} // Disable if no previous slide
+        >
+          ←
+        </button>
+        <div className="relative mt-10 flex justify-center items-center font-thin">
+          {String(selectedIndex + 1).padStart(2, "0")} /{" "}
+          {String(slides.length).padStart(2, "0")}
+        </div>
+        <button
+          className={` absolute right-5 top-1/2 transform -translate-y-1/2 z-20 p-2 ${
+            !emblaMainApi?.canScrollNext() ? "opacity-30" : "opacity-100"
+          }`}
+          onClick={scrollNext}
+          disabled={!emblaMainApi?.canScrollNext()} // Disable if no next slide
+        >
+          →
+        </button>
       </div>
     </div>
   );

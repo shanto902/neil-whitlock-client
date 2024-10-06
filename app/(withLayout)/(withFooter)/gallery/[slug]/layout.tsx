@@ -112,7 +112,7 @@ const Layout = async ({
       </Suspense>
 
       {/* Third Section: Description */}
-      <div className=" my-10 mx-auto py-0 text-center text-white text-sm font-semibold text-pretty leading-[35px] tracking-widest">
+      <div className=" my-10 mx-auto py-0 text-center text-white text-sm font-extralight text-pretty leading-[35px] tracking-widest">
         {descriptionData[0]?.description}
       </div>
     </PaddingContainer>

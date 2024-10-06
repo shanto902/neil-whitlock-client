@@ -62,9 +62,10 @@ const Footer = () => {
             ))}
           </ul>
         </nav>
-        <p className="mt-4 uppercase text-gray-400 text-xs text-center w-full px-4 sm:px-8">
-          All content Copyright © 2024{" "}
-          <span className=" font-bold">Neill Whitlock</span>. Developed by{" "}
+        <p className="mt-4 uppercase text-gray-400 font-extralight text-xs text-center w-full px-4 sm:px-8">
+          Copyright © 2024{" "}
+          <span className=" font-semibold">Neill Whitlock</span> All rights
+          reserved.. <br /> Developed by{" "}
           <a
             className="font-semibold"
             href="https://shantosworkshop.com"

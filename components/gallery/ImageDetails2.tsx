@@ -21,7 +21,7 @@ const ImageDetail2: FC<ImageDetail2Props> = ({ photo, className }) => {
       {isLoading && (
         <div
           className={clsx(
-            "absolute inset-0 flex flex-col justify-center items-center",
+            "absolute inset-0 flex flex-col justify-end items-center",
             isLoading ? "opacity-100" : "opacity-0 hidden", // For smooth transition
             "transition-opacity duration-300"
           )}
