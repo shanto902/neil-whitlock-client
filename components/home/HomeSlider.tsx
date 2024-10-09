@@ -8,6 +8,7 @@ import { Scrollbar, Mousewheel } from "swiper/modules"; // Add Mousewheel module
 import PaddingContainer from "../layout/PaddingContainer";
 import DynamicImage from "../DynamicImage";
 import { TSlider } from "@/interface/homeSlider.interface";
+import Link from "next/link";
 
 const HomeSlider = ({ sliderData }: { sliderData: TSlider[] }) => {
   return (
@@ -38,13 +39,12 @@ const HomeSlider = ({ sliderData }: { sliderData: TSlider[] }) => {
 
             {/* Content */}
             <PaddingContainer>
-              <div className="absolute bottom-10 text-white z-10 left-1/2 transform -translate-x-1/2 h-24 max-w-[1550px] px-10 w-full">
-                <h2 className="text-white xl:text-4xl text-lg md:text-2xl font-medium tracking-[3.60px]">
-                  {slider.title}
-                </h2>
-                <p className="text-white mt-3 text-sm font-medium tracking-wider mb-10">
-                  {slider.description}
-                </p>
+              <div className="absolute bottom-2 text-white z-10 left-1/2 transform -translate-x-1/2 h-24 max-w-[1550px] px-10 w-full">
+                <Link href={slider.url}>
+                  <h2 className="text-white xl:text-4xl text-lg md:text-2xl font-medium tracking-[3.60px]">
+                    {slider.title}
+                  </h2>
+                </Link>
               </div>
             </PaddingContainer>
           </div>

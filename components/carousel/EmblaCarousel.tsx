@@ -7,7 +7,9 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import "./styles.css";
 import { TImageData } from "@/interface/pictures.interface";
 import ImageDetail2 from "../gallery/ImageDetails2";
-
+import Image from "next/image";
+import arrowLeft from "@/public/assets/svg/arrow-left.svg";
+import arrowRight from "@/public/assets/svg/arrow-right.svg";
 type PropType = {
   slides: TImageData[];
   options?: EmblaOptionsType;
@@ -29,7 +31,9 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     (id: string) => {
       const newParams = new URLSearchParams(searchParams.toString());
       newParams.set("image", id);
-      router.push(`${pathname}?${newParams.toString()}`, { scroll: false });
+      router.push(`${pathname}?${newParams.toString()}#main`, {
+        scroll: false,
+      });
     },
     [router, pathname, searchParams]
   );
@@ -79,6 +83,19 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
       window.removeEventListener("popstate", handlePopState);
     };
   }, [router]);
+
+  useEffect(() => {
+    if (!emblaMainApi) return;
+
+    // On initial select
+    onSelect();
+
+    // Scroll to #main on each slide select
+    document.getElementById("main")?.scrollIntoView({ behavior: "smooth" });
+
+    // Listen for select and re-initialize events
+    emblaMainApi.on("select", onSelect).on("reInit", onSelect);
+  }, [emblaMainApi, onSelect]);
 
   document.addEventListener("contextmenu", (event) => {
     event.preventDefault();
@@ -158,7 +175,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
           onClick={scrollPrev}
           disabled={!emblaMainApi?.canScrollPrev()} // Disable if no previous slide
         >
-          ←
+          <Image className=" cursor-pointer" alt="Arrow Left" src={arrowLeft} />
         </button>
         <div className="relative mt-10 flex justify-center items-center font-thin">
           {String(selectedIndex + 1).padStart(2, "0")} /{" "}
@@ -171,7 +188,11 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
           onClick={scrollNext}
           disabled={!emblaMainApi?.canScrollNext()} // Disable if no next slide
         >
-          →
+          <Image
+            className=" cursor-pointer"
+            alt="Arrow Right"
+            src={arrowRight}
+          />
         </button>
       </div>
     </div>

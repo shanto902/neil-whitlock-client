@@ -38,6 +38,7 @@ const ImageDetail2: FC<ImageDetail2Props> = ({ photo, className }) => {
       )}
 
       <Image
+        id="main"
         src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${photo.image}`}
         width={photo.width}
         height={photo.height}

@@ -4,6 +4,8 @@ import directus from "@/lib/directus";
 import { readFile, readItems } from "@directus/sdk";
 import { EmblaOptionsType } from "embla-carousel";
 
+// Scroll to the element with the 'main' ID
+
 // Generate static params for dynamic routes
 export async function generateStaticParams() {
   try {

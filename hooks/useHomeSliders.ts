@@ -7,7 +7,7 @@ const useHomeSliders = cache(async (): Promise<TSlider[]> => {
   try {
     const result = await directus.request(
       readItems("homeSlider" as any, {
-        fields: ["id", "title", "picture", "description"],
+        fields: ["id", "title", "picture", "url"],
         sort: ["sort"],
         filter: {
           status: {

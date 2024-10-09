@@ -1,6 +1,6 @@
 export type TSlider = {
   title: string;
-  description: string;
+  url: string;
   picture: string;
   blurDataURL: string;
 };
