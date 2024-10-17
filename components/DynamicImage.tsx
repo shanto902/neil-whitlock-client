@@ -38,6 +38,7 @@ const DynamicImage = ({
         placeholder="blur"
         blurDataURL={blurDataURL}
         {...size}
+        priority
       />
     </div>
   );

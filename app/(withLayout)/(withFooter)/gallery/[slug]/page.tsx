@@ -3,6 +3,7 @@ import { TImageData } from "@/interface/pictures.interface";
 import directus from "@/lib/directus";
 import { readFile, readItems } from "@directus/sdk";
 import { EmblaOptionsType } from "embla-carousel";
+import { cache } from "react";
 
 // Scroll to the element with the 'main' ID
 
@@ -23,7 +24,7 @@ export async function generateStaticParams() {
   }
 }
 
-const getPictures = async (slug: string) => {
+const getPictures = cache(async (slug: string) => {
   try {
     const result = await directus.request(
       readItems("pictures", {
@@ -64,7 +65,7 @@ const getPictures = async (slug: string) => {
     console.error("Error fetching picture data:", error);
     throw new Error("Error fetching pictures");
   }
-};
+});
 
 const SliderPage = async ({ params }: { params: { slug: string } }) => {
   const OPTIONS: EmblaOptionsType = {};

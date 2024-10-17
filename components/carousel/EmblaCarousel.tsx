@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import { Thumb } from "./ThumbButton";
@@ -10,13 +10,13 @@ import ImageDetail2 from "../gallery/ImageDetails2";
 import Image from "next/image";
 import arrowLeft from "@/public/assets/svg/arrow-left.svg";
 import arrowRight from "@/public/assets/svg/arrow-right.svg";
+
 type PropType = {
   slides: TImageData[];
   options?: EmblaOptionsType;
 };
 
-const EmblaCarousel: React.FC<PropType> = (props) => {
-  const { slides, options } = props;
+const EmblaCarousel: React.FC<PropType> = ({ slides, options }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -27,13 +27,14 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     dragFree: true,
   });
 
+  // Ref to track if the scroll to #main has already occurred
+  const hasScrolled = useRef(false);
+
   const updateUrl = useCallback(
     (id: string) => {
       const newParams = new URLSearchParams(searchParams.toString());
       newParams.set("image", id);
-      router.push(`${pathname}?${newParams.toString()}#main`, {
-        scroll: false,
-      });
+      router.replace(`${pathname}?${newParams.toString()}`, { scroll: false });
     },
     [router, pathname, searchParams]
   );
@@ -55,69 +56,36 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     updateUrl(slides[selectedSnap].id);
   }, [emblaMainApi, emblaThumbsApi, slides, updateUrl]);
 
+  // Scroll to image in URL query param or first image
   useEffect(() => {
     if (!emblaMainApi) return;
-    onSelect();
-    emblaMainApi.on("select", onSelect).on("reInit", onSelect);
-  }, [emblaMainApi, onSelect]);
 
-  useEffect(() => {
     const imageId = searchParams.get("image");
-    if (imageId && emblaMainApi) {
-      const imageIndex = slides.findIndex((slide) => slide.id === imageId);
-      if (imageIndex !== -1) {
-        emblaMainApi.scrollTo(imageIndex);
-        setSelectedIndex(imageIndex);
-      }
+    const imageIndex = slides.findIndex((slide) => slide.id === imageId);
+
+    if (imageId && imageIndex !== -1) {
+      emblaMainApi.scrollTo(imageIndex);
+      setSelectedIndex(imageIndex);
+    } else {
+      // If no imageId or invalid, scroll to the first slide
+      console.log("No valid imageId, defaulting to first slide.");
+      emblaMainApi.scrollTo(0);
+      setSelectedIndex(0);
     }
   }, [searchParams, emblaMainApi, slides]);
 
   useEffect(() => {
-    const handlePopState = () => {
-      router.replace("/gallery/");
-    };
-
-    window.addEventListener("popstate", handlePopState);
-
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-    };
-  }, [router]);
-
-  useEffect(() => {
     if (!emblaMainApi) return;
 
-    // On initial select
-    onSelect();
+    onSelect(); // Trigger selection on initialization
 
-    // Scroll to #main on each slide select
-    document.getElementById("main")?.scrollIntoView({ behavior: "smooth" });
+    if (!hasScrolled.current) {
+      document.getElementById("main")?.scrollIntoView({ behavior: "smooth" });
+      hasScrolled.current = true;
+    }
 
-    // Listen for select and re-initialize events
     emblaMainApi.on("select", onSelect).on("reInit", onSelect);
   }, [emblaMainApi, onSelect]);
-
-  document.addEventListener("contextmenu", (event) => {
-    event.preventDefault();
-  });
-
-  // Add keyboard navigation functionality
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (!emblaMainApi) return;
-      if (event.key === "ArrowRight") {
-        emblaMainApi.scrollNext(); // Scroll to the next slide
-      } else if (event.key === "ArrowLeft") {
-        emblaMainApi.scrollPrev(); // Scroll to the previous slide
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [emblaMainApi]);
 
   // Arrow Navigation Handlers
   const scrollPrev = useCallback(() => {
@@ -144,10 +112,6 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
         </div>
       </div>
 
-      {/* Arrow Buttons */}
-
-      {/* Slide Counter */}
-
       {/* Thumbnail Navigation */}
       <div className="embla-thumbs">
         <div
@@ -167,29 +131,31 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
           </div>
         </div>
       </div>
-      <div className=" relative">
+
+      {/* Arrow Buttons */}
+      <div className="relative">
         <button
-          className={`absolute left-5 top-1/2 transform -translate-y-1/2 z-20 p-2  ${
+          className={`absolute left-5 top-1/2 transform -translate-y-1/2 z-20 p-2 ${
             !emblaMainApi?.canScrollPrev() ? "opacity-30" : "opacity-100"
           }`}
           onClick={scrollPrev}
           disabled={!emblaMainApi?.canScrollPrev()} // Disable if no previous slide
         >
-          <Image className=" cursor-pointer" alt="Arrow Left" src={arrowLeft} />
+          <Image className="cursor-pointer" alt="Arrow Left" src={arrowLeft} />
         </button>
         <div className="relative mt-10 flex justify-center items-center font-thin">
           {String(selectedIndex + 1).padStart(2, "0")} /{" "}
           {String(slides.length).padStart(2, "0")}
         </div>
         <button
-          className={` absolute right-5 top-1/2 transform -translate-y-1/2 z-20 p-2 ${
+          className={`absolute right-5 top-1/2 transform -translate-y-1/2 z-20 p-2 ${
             !emblaMainApi?.canScrollNext() ? "opacity-30" : "opacity-100"
           }`}
           onClick={scrollNext}
           disabled={!emblaMainApi?.canScrollNext()} // Disable if no next slide
         >
           <Image
-            className=" cursor-pointer"
+            className="cursor-pointer"
             alt="Arrow Right"
             src={arrowRight}
           />

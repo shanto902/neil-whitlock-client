@@ -9,10 +9,10 @@ import directus from "@/lib/directus";
 import { readItems } from "@directus/sdk";
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
-import { ReactNode, Suspense } from "react";
+import { cache, ReactNode, Suspense } from "react";
 import "react-multi-carousel/lib/styles.css";
 
-const getCategoryName = async (slug: string) => {
+const getCategoryName = cache(async (slug: string) => {
   try {
     const result = await directus.request(
       readItems("categories", {
@@ -30,7 +30,7 @@ const getCategoryName = async (slug: string) => {
     console.error("Error category", error);
     throw new Error("Error fetching category");
   }
-};
+});
 
 export const generateMetadata = async ({
   params: { slug },
@@ -99,7 +99,7 @@ const Layout = async ({
     notFound();
   }
   return (
-    <PaddingContainer className="relative mt-20 lg:min-h-screen">
+    <div className="relative mt-20 lg:min-h-screen">
       {/* This will enable vertical scrolling within the container */}
 
       {/* First Section: Page Title */}
@@ -112,10 +112,10 @@ const Layout = async ({
       </Suspense>
 
       {/* Third Section: Description */}
-      <div className=" my-10 mx-auto py-0 text-center text-white text-sm font-extralight text-pretty leading-[35px] tracking-widest">
+      <PaddingContainer className=" my-10 mx-auto py-0 text-center text-white text-sm font-extralight text-pretty leading-[35px] tracking-widest">
         {descriptionData[0]?.description}
-      </div>
-    </PaddingContainer>
+      </PaddingContainer>
+    </div>
   );
 };
 

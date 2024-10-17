@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import "swiper/css/mousewheel";
-import { Scrollbar, Mousewheel } from "swiper/modules"; // Add Mousewheel module
+import { Scrollbar } from "swiper/modules"; // Add Mousewheel module
 import PaddingContainer from "../layout/PaddingContainer";
 import DynamicImage from "../DynamicImage";
 import { TSlider } from "@/interface/homeSlider.interface";
@@ -14,11 +14,13 @@ const HomeSlider = ({ sliderData }: { sliderData: TSlider[] }) => {
   return (
     <Swiper
       scrollbar={{
-        hide: true,
+        hide: false,
       }}
-      mousewheel={true} // Enable mousewheel scroll
-      freeMode={true} // Enable free mode for smooth scrolling
-      modules={[Scrollbar, Mousewheel]} // Add Mousewheel module to Swiper
+      slidesPerView={1} // Show one slide per view (one "page")
+      centeredSlides={true} // Center the slide in the viewport
+      spaceBetween={0} // No space between slides
+      freeMode={true} // Disable free mode for snapping behavior
+      modules={[Scrollbar]} // Add Mousewheel module to Swiper
       className="w-full h-full mySwiper"
     >
       {sliderData.map((slider, i) => (

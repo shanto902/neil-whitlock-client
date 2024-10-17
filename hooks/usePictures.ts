@@ -1,6 +1,6 @@
 import directus from "@/lib/directus";
 import { readFile, readItems } from "@directus/sdk";
-import { useState, useEffect } from "react";
+import { useState, useEffect, cache } from "react";
 
 type TImageData = {
   id: number;
@@ -11,7 +11,7 @@ type TImageData = {
   height: number;
 };
 
-const getPictures = async (slug: string) => {
+const getPictures = cache(async (slug: string): Promise<TImageData[]> => {
   try {
     const result = await directus.request(
       readItems("pictures", {
@@ -50,7 +50,7 @@ const getPictures = async (slug: string) => {
     console.error("Error fetching picture data:", error);
     throw new Error("Error fetching pictures");
   }
-};
+});
 
 const usePictures = (slug: string) => {
   const [pictures, setPictures] = useState<TImageData[]>([]);

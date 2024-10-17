@@ -1,0 +1,21 @@
+/* Custom styles for the pagination dots (vertical layout) */
+.swiper-pagination {
+  position: absolute;
+  top: 50%;
+  right: 20px; /* Align on the right side of the screen */
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column; /* Stack the dots vertically */
+}
+
+.swiper-pagination-bullet {
+  background-color: #1c1917; /* Tailwind's stone-900 */
+  opacity: 1;
+  width: 12px;
+  height: 12px;
+  margin: 8px 0; /* Space between dots */
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #ffffff; /* Active bullet will be white */
+}
