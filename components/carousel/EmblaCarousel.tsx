@@ -96,6 +96,24 @@ const EmblaCarousel: React.FC<PropType> = ({ slides, options }) => {
     if (emblaMainApi) emblaMainApi.scrollNext();
   }, [emblaMainApi]);
 
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft") {
+        scrollPrev();
+      } else if (event.key === "ArrowRight") {
+        scrollNext();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [scrollPrev, scrollNext]);
+
   return (
     <div className="embla relative">
       {/* Main Slider */}

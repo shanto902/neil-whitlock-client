@@ -38,9 +38,12 @@ const NavBar = () => {
         <div className="flex flex-1 w-full justify-end md:justify-center lg:justify-end">
           <ul className="uppercase hidden md:flex text-white gap-5">
             {links.map((link) => (
-              <li key={link.path}>
+              <li
+                key={link.path}
+                className="group hover:bg-white duration-300 transition-all px-2"
+              >
                 <Link
-                  className={`hover:underline underline-offset-4  text-sm font-medium tracking-wider ${getLinkClass(
+                  className={`hover:underline underline-offset-4  text-sm font-medium tracking-wider group-hover:text-black ${getLinkClass(
                     link.path
                   )}`}
                   href={link.path}
@@ -55,7 +58,7 @@ const NavBar = () => {
           </button>
         </div>
       </nav>
-      {/* Mobile navigation slider */}
+      {/* Mobile Nav  */}
       <div
         className={`fixed lg:hidden top-0 right-0 h-full w-64 bg-stone-900 text-white transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
@@ -65,19 +68,30 @@ const NavBar = () => {
           className="absolute top-4 right-4 text-white"
           onClick={toggleNav}
         >
-          {/* Add your close icon here */}✕
+          ✕
         </button>
         <ul className="uppercase flex flex-col text-white mt-20 gap-5 px-5">
           {links.map((link) => (
-            <li key={link.path}>
-              <Link
-                href={link.path}
-                className={getLinkClass(link.path)}
-                onClick={toggleNav}
+            <Link
+              key={link.path}
+              href={link.path}
+              onClick={toggleNav}
+              className="flex group items-center gap-3 duration-300 transition-all hover:bg-white px-2"
+            >
+              <span
+                className={`${getLinkClass(
+                  link.path
+                )} flex-shrink-0  group-hover:text-black`}
               >
                 {link.name}
-              </Link>
-            </li>
+              </span>
+              <div className="flex items-center w-full">
+                <hr className="flex-grow border-t-2 mt-[0.5px] border-white " />
+                <span className="text-white opacity-0  group-hover:opacity-100 font-semibold text-xl group-hover:text-black ">
+                  →
+                </span>
+              </div>
+            </Link>
           ))}
         </ul>
       </div>
